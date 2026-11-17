@@ -14,6 +14,96 @@
   <link rel="canonical" href="https://monyazone.github.io/">
   <link rel="icon" href="assets/monyazone-mark.png" type="image/png">
   <link rel="stylesheet" href="assets/site.css">
+  <style>
+    .game {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fffdfb;
+      box-shadow: 0 4px 12px #231b3510;
+    }
+    .game > :is(.eyebrow, h3, p:last-child) { margin-inline: 15px; }
+    .game > p:last-child { margin-bottom: 16px; }
+    .game-preview {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: var(--pale);
+    }
+    .game .game-preview img {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      border-radius: 0;
+    }
+    .game-preview::before {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(transparent 45%, #1b123441);
+      content: "";
+    }
+    .preview-play {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: clamp(42px, 5vw, 60px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #cf319a, #6936d9);
+      box-shadow: 0 0 0 7px #ffffff66, 0 4px 18px #25064a66;
+    }
+    .preview-play::after {
+      width: 34%;
+      aspect-ratio: 1;
+      margin-left: 5%;
+      background: white;
+      clip-path: polygon(13% 3%, 96% 50%, 13% 97%);
+      content: "";
+    }
+    .game-preview:is(:hover, :focus-visible) .preview-play {
+      box-shadow: 0 0 0 9px #ffffff99, 0 4px 18px #25064a66;
+    }
+    .game-preview:focus-visible { outline: 3px solid var(--violet); outline-offset: -4px; }
+    .preview-dialog {
+      box-sizing: border-box;
+      width: min(29rem, calc(100vw - 24px));
+      max-height: calc(100dvh - 24px);
+      padding: 14px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fffdfb;
+    }
+    .preview-dialog::backdrop { background: #171022d9; }
+    body:has(.preview-dialog[open]) { overflow: hidden; }
+    .preview-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .preview-heading h2 { font-size: clamp(1.1rem, 4vw, 1.6rem); }
+    .preview-heading button { border: 0; cursor: pointer; }
+    .preview-dialog video {
+      display: block;
+      width: 100%;
+      height: min(72dvh, 36rem);
+      object-fit: contain;
+      border-radius: 9px;
+      background: #171022;
+    }
+    .preview-dialog video[hidden] { display: none; }
+    .preview-status { margin-top: 10px; color: var(--soft); }
+  </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -44,22 +134,34 @@
       </div>
       <div class="game-grid">
         <article class="game">
-          <img src="assets/dune-scoops.webp" width="512" height="512" alt="A turquoise scoop lifting orange sand">
+          <button class="game-preview" type="button" data-preview="dune-scoops" aria-haspopup="dialog" aria-label="Dune Scoops gameplay preview">
+            <img src="assets/dune-scoops.webp" width="512" height="512" alt="A turquoise scoop lifting orange sand">
+            <span class="preview-play" aria-hidden="true"></span>
+          </button>
           <p class="eyebrow">Sorting puzzle · Coming Soon</p><h3>Dune Scoops</h3>
           <p>Scoop layers of colored sand and sort them into matching bins.</p>
         </article>
         <article class="game">
-          <img src="assets/pocket-parcel.webp" width="512" height="512" alt="A red delivery truck carrying cardboard boxes">
+          <button class="game-preview" type="button" data-preview="pocket-parcel" aria-haspopup="dialog" aria-label="Pocket Parcel gameplay preview">
+            <img src="assets/pocket-parcel.webp" width="512" height="512" alt="A red delivery truck carrying cardboard boxes">
+            <span class="preview-play" aria-hidden="true"></span>
+          </button>
           <p class="eyebrow">Route puzzle · Coming Soon</p><h3>Pocket Parcel</h3>
           <p>Plan short delivery routes through tiny neighborhoods and drop every parcel at the right door.</p>
         </article>
         <article class="game">
-          <img src="assets/pond-poppers.webp" width="512" height="512" alt="A green frog reaching for floating bubbles">
+          <button class="game-preview" type="button" data-preview="pond-poppers" aria-haspopup="dialog" aria-label="Pond Poppers gameplay preview">
+            <img src="assets/pond-poppers.webp" width="512" height="512" alt="A green frog reaching for floating bubbles">
+            <span class="preview-play" aria-hidden="true"></span>
+          </button>
           <p class="eyebrow">Tap arcade · Coming Soon</p><h3>Pond Poppers</h3>
           <p>Help a little frog pop matching bubbles and keep its combo going.</p>
         </article>
         <article class="game">
-          <img src="assets/stack-sprout.webp" width="512" height="512" alt="A stack of terracotta flower pots topped with a seedling">
+          <button class="game-preview" type="button" data-preview="stack-sprout" aria-haspopup="dialog" aria-label="Stack Sprout gameplay preview">
+            <img src="assets/stack-sprout.webp" width="512" height="512" alt="A stack of terracotta flower pots topped with a seedling">
+            <span class="preview-play" aria-hidden="true"></span>
+          </button>
           <p class="eyebrow">Stacking arcade · Coming Soon</p><h3>Stack Sprout</h3>
           <p>Time each drop to balance wobbly garden pots and grow your tower.</p>
         </article>
@@ -117,5 +219,78 @@
     <p>© 2026 Monyazone Studio</p>
     <nav aria-label="Legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
   </footer>
+  <dialog class="preview-dialog" id="game-preview-dialog" aria-labelledby="preview-title">
+    <div class="preview-heading">
+      <h2 id="preview-title">Gameplay preview</h2>
+      <form method="dialog"><button class="button primary" autofocus>Close</button></form>
+    </div>
+    <video controls playsinline preload="none" aria-labelledby="preview-title" hidden></video>
+    <p class="preview-status" role="status" hidden></p>
+  </dialog>
+  <script>
+    const previewDialog = document.querySelector("#game-preview-dialog");
+    const previewTitle = previewDialog.querySelector("h2");
+    const previewVideo = previewDialog.querySelector("video");
+    const previewStatus = previewDialog.querySelector(".preview-status");
+    let previewMedia;
+    let activeRequest = 0;
+    let videoURL;
+
+    function showStatus(message) {
+      previewStatus.textContent = message;
+      previewStatus.hidden = !message;
+    }
+
+    function loadPreviewMedia() {
+      previewMedia ??= fetch("assets/game-preview-media.json").then((response) => {
+        if (!response.ok) throw new Error("Preview media is unavailable");
+        return response.json();
+      }).catch((error) => {
+        previewMedia = undefined;
+        throw error;
+      });
+      return previewMedia;
+    }
+
+    document.querySelectorAll(".game-preview").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const request = ++activeRequest;
+        previewTitle.textContent = button.getAttribute("aria-label");
+        previewVideo.hidden = true;
+        showStatus("Loading preview…");
+        previewDialog.showModal();
+
+        try {
+          const media = await loadPreviewMedia();
+          if (request !== activeRequest || !previewDialog.open) return;
+          const clip = media[button.dataset.preview];
+          const bytes = Uint8Array.from(atob(clip.join("")), (character) => character.charCodeAt(0));
+          videoURL = URL.createObjectURL(new Blob([bytes], { type: "video/mp4" }));
+          previewVideo.src = videoURL;
+          previewVideo.muted = true;
+          previewVideo.hidden = false;
+          showStatus("");
+          previewVideo.play().catch(() => {
+            // Native controls are still available if autoplay is blocked.
+          });
+        } catch {
+          if (request === activeRequest && previewDialog.open) {
+            showStatus("This preview could not be loaded. Close it and try again.");
+          }
+        }
+      });
+    });
+    previewVideo.addEventListener("error", () => {
+      if (previewDialog.open && videoURL) showStatus("This preview could not be played.");
+    });
+    previewDialog.addEventListener("close", () => {
+      ++activeRequest;
+      previewVideo.pause();
+      previewVideo.removeAttribute("src");
+      previewVideo.load();
+      if (videoURL) URL.revokeObjectURL(videoURL);
+      videoURL = undefined;
+    });
+  </script>
 </body>
 </html>
